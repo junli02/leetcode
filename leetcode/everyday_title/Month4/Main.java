@@ -1,5 +1,6 @@
 package everyday_title.Month4;
 
+import java.math.BigDecimal;
 import java.nio.charset.IllegalCharsetNameException;
 import java.util.*;
 import java.util.concurrent.*;
@@ -8,14 +9,26 @@ import java.util.concurrent.*;
  * @Author: jun
  * @Date: 2024/04/18/16:03
  */
-public class Main implements Runnable {
+public class Main  {
     public static void main(String[] args) {
-        ThreadPoolExecutor threadPoolExecutor = new ThreadPoolExecutor(10, 10, 100, TimeUnit.SECONDS, new ArrayBlockingQueue<>(10));
-        Main main = new Main();
-        threadPoolExecutor.execute(main);
-        Future<?> fu = threadPoolExecutor.submit(main);
 
     }
+
+    //377 组合综合IV
+    public int combinationSum4(int[] nums, int target) {
+        //0 - target 的目标值
+        int[] dp = new int[target + 1];
+        dp[0] = 1;
+        for (int i = 0; i < target; i++) {
+            //是否以nums【i】为尾数，  dp【i】表示不以nums【i】为尾数， dp【i - nums【i】 表示以i为尾数
+            //dp[i] = d[i]  = d[i] + dp[i - nums[i]]
+            for (int j = 1; j <= nums.length; j++) {
+                if(j >= nums[i]) dp[j] += dp[j - nums[i]];
+            }
+        }
+        return dp[target];
+    }
+
 
     //寻找冠军队伍 grid[i][j]  = 1 i 比 j 厉害;
     public int findChampion(int[][] grid) {
@@ -63,11 +76,5 @@ public class Main implements Runnable {
         return result;
     }
 
-    @Override
-    public void run() {
-        System.out.println("hi");
-        if(true)
-        throw new RuntimeException("错误");
-        System.out.println("www");
-    }
+
 }
